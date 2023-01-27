@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
 
@@ -25,8 +24,8 @@ export default function SignIn() {
       <div className="flex justify-center flex-wrap items-center px-5 py-10 mx-auto max-w-6xl">
         <div className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6">
           <img
-            src="https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7963.jpg?w=740&t=st=1674034153~exp=1674034753~hmac=4f4f0b5fa0617685cbc7e9ebef90178814fb43bb3b77b4df6c9f2de7e922d46b"
-            alt="sigin"
+            src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1010.jpg?w=740&t=st=1674208048~exp=1674208648~hmac=5a50d4e5d004d4e7c17f4193c39b8b715c9e8a20e2fb8906d42cf99ca34c58cd"
+            alt="logoimg"
             className="rounded-2xl w-full"
           />
         </div>
