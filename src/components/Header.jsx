@@ -1,13 +1,28 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React from "react";
+import { useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [pageState, setPageState] = useState("Sign-in");
+  const auth = getAuth();
   console.log(location);
   const pathMatchRoute = (route) => {
     return route === location.pathname;
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        setPageState("Profile")
+      }else{
+        setPageState("Sign-in")
+      }
+    })
+  }, [auth])
+  
   return (
     <div className="bg-white border-b shadow-sm sticky top-0">
       <header className="flex justify-between px-3 items-center max-w-6xl mx-auto">
@@ -33,16 +48,7 @@ export default function Header() {
             >
               Home
             </li>
-            <li
-              className={`cursor-pointer py-3 text-sm font-semibold text-gray-500 border-b-[3px] border-b-transparent  ${
-                pathMatchRoute("/sign-in") && "text-black border-b-red-400"
-              }`}
-              onClick = {()=>{
-                navigate("/sign-in")
-              }}
-            >
-              Sigin
-            </li>
+            
             <li
               className={`cursor-pointer py-3 text-sm font-semibold text-gray-500 border-b-[3px] border-b-transparent  ${
                 pathMatchRoute("/offers") && "text-black border-b-red-400"
@@ -52,6 +58,16 @@ export default function Header() {
               }}
             >
               Offers
+            </li>
+            <li
+              className={`cursor-pointer py-3 text-sm font-semibold text-gray-500 border-b-[3px] border-b-transparent  ${
+                (pathMatchRoute("/sign-in")|| pathMatchRoute("/profile")) && "text-black border-b-red-400"
+              }`}
+              onClick = {()=>{
+                navigate("/profile")
+              }}
+            >
+              {pageState}
             </li>
           </ul>
         </div>
