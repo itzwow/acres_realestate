@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Offers from "./pages/Offers";
+import CreateListing from "./pages/CreateListing";
 function App() {
   return (
     <div>
@@ -26,6 +27,7 @@ function App() {
           </Route>
           
           <Route path="/offers" element={<Offers />} />
+          <Route path="/create-listing" element={<CreateListing />} />
         </Routes>
       </Router>
       <ToastContainer
