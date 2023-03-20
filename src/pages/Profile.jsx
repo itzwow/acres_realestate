@@ -1,15 +1,20 @@
 import { getAuth, updateProfile } from 'firebase/auth';
-import { updateDoc,doc } from 'firebase/firestore';
+import { updateDoc,doc, collection, Query, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {FcHome} from 'react-icons/fc'
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import ListingItem from '../components/ListingItem';
 
 export default function Profile() {
   const auth = getAuth();
   const [editProfile, setEditProfile] = useState(false);
+  const [listings,setListings] = useState([]);
+  const [loading,setLoading] = useState(true);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
@@ -48,6 +53,28 @@ export default function Profile() {
       toast.error(error.code);
     }
   }
+
+  useEffect(() => {
+    const fetchUserListings = async ()=>{
+      setLoading(false)
+        const listingRef = collection(db,"listings");
+        const q = query(listingRef,where("userRef","==", auth.currentUser.uid), orderBy("timestamp","desc"));
+        const querySnap = await getDocs(q);
+        let listings=[];
+        querySnap.forEach((doc)=>{
+            return listings.push({
+              id: doc.id,
+              data: doc.data(),
+            });
+        });
+        setListings(listings);
+        setLoading(false);
+    }
+
+    fetchUserListings();
+  
+  }, [auth.currentUser.uid])
+  
   return (
     <>
     <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
@@ -77,6 +104,15 @@ export default function Profile() {
         </button>
       </div>
     </section>
+    { !loading && listings.length!==null && listings.length >0 && 
+      (<>
+      <h2 className='text-2xl text-center font-semibold'>My Listings</h2>
+      <ul>{listings.map((listing)=>
+        (<ListingItem key={listing.id} id={listing.id} listing={listing.data}/>)
+      )}</ul>
+      </>)
+
+    }
     </>
   )
 }
