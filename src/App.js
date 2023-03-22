@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Offers from "./pages/Offers";
 import CreateListing from "./pages/CreateListing";
+import EditListing from "./components/EditListing";
 function App() {
   return (
     <div>
@@ -29,6 +30,9 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route  path="/create-listing" element={<PrivateRoute/>}>
             <Route path="/create-listing" element={<CreateListing />} />
+          </Route>
+          <Route  path="/edit-listing" element={<PrivateRoute/>}>
+            <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
         </Routes>
       </Router>
