@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Offers from "./pages/Offers";
 import CreateListing from "./pages/CreateListing";
 import EditListing from "./components/EditListing";
+import Listing from "./pages/Listing";
 function App() {
   return (
     <div>
@@ -28,6 +29,7 @@ function App() {
           </Route>
           
           <Route path="/offers" element={<Offers />} />
+          <Route path="/category/:category/:listingId" element={<Listing />} />
           <Route  path="/create-listing" element={<PrivateRoute/>}>
             <Route path="/create-listing" element={<CreateListing />} />
           </Route>
