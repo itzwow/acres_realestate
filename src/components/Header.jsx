@@ -26,11 +26,12 @@ export default function Header() {
   return (
     <div className="bg-white border-b shadow-sm sticky top-0">
       <header className="flex justify-between px-3 items-center max-w-6xl mx-auto">
-        <div>
+        <div className="flex items-center">
           <img
-            src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg"
+            src="https://cdn-icons-png.flaticon.com/512/9202/9202494.png"
             alt="logo"
             className="h-5 cursor-pointer"
+            style={{height:"30px", width:"30px"}}
             onClick={() => {
               navigate("/");
             }}
