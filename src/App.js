@@ -14,6 +14,7 @@ import Offers from "./pages/Offers";
 import CreateListing from "./pages/CreateListing";
 import EditListing from "./components/EditListing";
 import Listing from "./pages/Listing";
+import Category from "./pages/Category";
 function App() {
   return (
     <div>
@@ -29,6 +30,7 @@ function App() {
           </Route>
           
           <Route path="/offers" element={<Offers />} />
+          <Route path="/category/:categoryType" element={<Category />} />
           <Route path="/category/:category/:listingId" element={<Listing />} />
           <Route  path="/create-listing" element={<PrivateRoute/>}>
             <Route path="/create-listing" element={<CreateListing />} />
