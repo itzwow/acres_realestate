@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
@@ -13,11 +13,14 @@ import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function CreateListing() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [geolocationEnabled, setgeolocationEnabled] = useState(false);
+  const [currLocation, setCurrLocation] = useState({});
+  // const [currLocationJs, setCurrLocationJs] = useState({});
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
@@ -76,6 +79,26 @@ export default function CreateListing() {
     }
   };
 
+  //setting geolocation
+  useEffect(()=>{
+    // const getLocation = async()=>{
+    //   const location = await axios.get("https://ipapi.co/json");
+    //   console.log(location);
+    //   setCurrLocation(location.data)
+    // }
+    // getLocation();
+    geoLocationJs();
+  },[])
+
+  const geoLocationJs = ()=>{
+    navigator.geolocation.getCurrentPosition((postion)=>{
+      console.log(postion);
+      const {longitude, latitude} = postion.coords;
+      setCurrLocation({latitude,longitude})
+      console.log(currLocation);
+    })
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -91,8 +114,10 @@ export default function CreateListing() {
     }
 
     let geolocation = {};
-    geolocation.lat = latitude;
-    geolocation.lng = longitude;
+    geolocation.lat = currLocation.latitude;
+    geolocation.lng = currLocation.longitude;
+    // geolocation.lat = currLocation.latitude;
+    // geolocation.lng = currLocation.longitude;
 
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
@@ -313,10 +338,11 @@ export default function CreateListing() {
               <input
                 type="number"
                 id="latitude"
-                value={latitude}
+                value={currLocation.latitude}
                 onChange={onChange}
                 min={-90}
                 max={90}
+                defaultValue={currLocation.latitude}
                 required
                 className="text-xl px-3 py-2 text-gray-700 text-center transition ease-in-out duration-100 focus:bg-white focus:border-slate-600 rounded w-full"
               />
@@ -326,10 +352,11 @@ export default function CreateListing() {
               <input
                 type="number"
                 id="longitude"
-                value={longitude}
+                value={currLocation.longitude}
                 onChange={onChange}
                 min={-180}
                 max={180}
+                defaultValue={currLocation.latitude}
                 required
                 className="text-xl px-3 py-2 text-gray-700 text-center transition ease-in-out duration-100 focus:bg-white focus:border-slate-600 rounded w-full"
               />

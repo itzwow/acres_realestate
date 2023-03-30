@@ -13,11 +13,13 @@ import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router";
+import axios from "axios";
 
 export default function EditListing() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [geolocationEnabled, setgeolocationEnabled] = useState(false);
+  const [currLocation, setCurrLocation] = useState({});
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
   const [formData, setFormData] = useState({
@@ -104,6 +106,27 @@ export default function EditListing() {
       }));
     }
   };
+  const geoLocationJs = ()=>{
+    navigator.geolocation.getCurrentPosition((postion)=>{
+      console.log(postion);
+      const {longitude, latitude} = postion.coords;
+      setCurrLocation({latitude,longitude})
+      console.log(currLocation);
+    })
+  }
+
+ //setting geolocation
+ useEffect(()=>{
+  // const getLocation = async()=>{
+  //   const location = await axios.get("https://ipapi.co/json");
+  //   console.log(location);
+  //   setCurrLocation(location.data)
+  // }
+  // getLocation();
+  geoLocationJs();
+},[])
+
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -120,8 +143,8 @@ export default function EditListing() {
     }
 
     let geolocation = {};
-    geolocation.lat = latitude;
-    geolocation.lng = longitude;
+    geolocation.lat = currLocation.latitude;
+    geolocation.lng = currLocation.longitude;
 
     const storeImage = async (image) => {
       return new Promise((resolve, reject) => {
@@ -343,7 +366,8 @@ export default function EditListing() {
               <input
                 type="number"
                 id="latitude"
-                value={latitude}
+                value={Math.round((currLocation.latitude + Number.EPSILON) * 100) / 100}
+                step={0.01}
                 onChange={onChange}
                 min={-90}
                 max={90}
@@ -356,7 +380,8 @@ export default function EditListing() {
               <input
                 type="number"
                 id="longitude"
-                value={longitude}
+                value={Math.round((currLocation.longitude + Number.EPSILON) * 100) / 100}
+                step={0.01}
                 onChange={onChange}
                 min={-180}
                 max={180}
@@ -470,7 +495,7 @@ export default function EditListing() {
           type="submit"
           className="mb-6 px-7 py-3 w-full rounded bg-blue-600 text-sm uppercase text-white font-medium hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 active:bg-blue-800 transition duration-150 ease-in-out"
         >
-          Create Listing
+          Update Listing
         </button>
       </form>
     </main>
