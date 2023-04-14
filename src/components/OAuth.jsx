@@ -15,7 +15,7 @@ export default function OAuth() {
 
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      // console.log(user);
+       //console.log(user);
 
       // checking for the user
       const docRef = doc(db,"users",user.uid);
@@ -31,7 +31,7 @@ export default function OAuth() {
       navigate("/");
     }catch(error){
       toast.error('error occured!')
-      console.log(error);
+      //console.log(error);
     }
   }
   return (

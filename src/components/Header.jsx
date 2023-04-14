@@ -8,7 +8,7 @@ export default function Header() {
   const navigate = useNavigate();
   const [pageState, setPageState] = useState("Sign-in");
   const auth = getAuth();
-  console.log(location);
+  //console.log(location);
   const pathMatchRoute = (route) => {
     return route === location.pathname;
   };

@@ -12,7 +12,7 @@ export default function SignIn() {
 
   const { email} = formData;
   const onChange = (e) => {
-    // console.log(e.target.value)
+    // //console.log(e.target.value)
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,

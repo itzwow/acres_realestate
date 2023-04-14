@@ -35,7 +35,7 @@ export default function Home() {
 
 
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
 
@@ -59,7 +59,7 @@ useEffect(()=>{
       setRentListings(rentListings);
       
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -83,7 +83,7 @@ useEffect(()=>{
       })
       setSaleListings(saleListing);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
 
   }
