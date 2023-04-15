@@ -93,7 +93,9 @@ export default function CreateListing() {
   const geoLocationJs = ()=>{
     navigator.geolocation.getCurrentPosition((postion)=>{
       //console.log(postion);
-      const {longitude, latitude} = postion.coords;
+      let {longitude, latitude} = postion.coords;
+      latitude = parseFloat(latitude).toFixed(2);
+      longitude = parseFloat(longitude).toFixed(2);
       setCurrLocation({latitude,longitude})
       //console.log(currLocation);
     })
@@ -114,8 +116,8 @@ export default function CreateListing() {
     }
 
     let geolocation = {};
-    geolocation.lat = currLocation.latitude;
-    geolocation.lng = currLocation.longitude;
+    geolocation.lat = currLocation.latitude
+    geolocation.lng =currLocation.longitude
     // geolocation.lat = currLocation.latitude;
     // geolocation.lng = currLocation.longitude;
 
@@ -340,6 +342,7 @@ export default function CreateListing() {
                 id="latitude"
                 value={currLocation.latitude}
                 onChange={onChange}
+                step={"0.01"}
                 min={-90}
                 max={90}
                 defaultValue={currLocation.latitude}
@@ -354,9 +357,10 @@ export default function CreateListing() {
                 id="longitude"
                 value={currLocation.longitude}
                 onChange={onChange}
+                step={"0.01"}
                 min={-180}
                 max={180}
-                defaultValue={currLocation.latitude}
+                defaultValue={currLocation.longitude}
                 required
                 className="text-xl px-3 py-2 text-gray-700 text-center transition ease-in-out duration-100 focus:bg-white focus:border-slate-600 rounded w-full"
               />
